@@ -6,8 +6,9 @@ export function AppRouter(){
     return(
         <BrowserRouter>
         <Routes>
-            <Route element={<Layout/>} />
-            <Route path="/" element={<HomePage/>}
+            <Route element={<Layout/>} >
+            <Route path="/" element={<HomePage/>} />
+            </Route>
         </Routes>
         </BrowserRouter>
     )
