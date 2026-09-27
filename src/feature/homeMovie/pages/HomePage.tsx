@@ -43,7 +43,7 @@ export function HomePage() {
         Descubrir nuevas películas
       </h1>
 
-      <div>
+      <div className="mb-10 flex flex-col gap-3 sm:flex-row">
         <SearchBar 
         value={searchQuery}
         onChange={(value: string) =>{
@@ -63,11 +63,11 @@ export function HomePage() {
         />
       </div>
 
-      {isLoading && <p>Cargando...</p>}
-      {error &&( <p role="alert">{error}</p>)}
+      {isLoading && <p className="text-text-muted">Cargando...</p>}
+      {error &&( <p role="alert" className="text-red-500">{error}</p>)}
 
       {!isLoading && !error && movies.length === 0 &&(
-        <p>No se encuentrant resultados</p>
+        <p className="text-text-muted">No se encuentrant resultados</p>
       )}
 
      

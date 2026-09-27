@@ -12,6 +12,7 @@ export function GenreFilter({ genres, selectedGenre, onChange }: Props) {
       value={selectedGenre}
       onChange={(e) => onChange(e.target.value)}
       aria-label="Filtar por generos"
+      className="rounded-lg bg-card-bg px-4 py-2 text-text-main"
     >
       <option value="">Todos los generos</option>
       {genres.map((genre) => (
