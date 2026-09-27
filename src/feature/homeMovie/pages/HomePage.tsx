@@ -23,10 +23,10 @@ export function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h1>Descubrir nuevas películas</h1>
+    <div className="p-4 md:p-6">
+      <h1 className="mb-6 text-2xl font-bold text-text-muted">Descubrir nuevas películas</h1>
 
-      <div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-5">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}

@@ -6,8 +6,8 @@
   --color-card-bg: #1e293b;      /* El fondo grisáceo para las MovieCard */
   
   /* Textos */
-  --color-text-main: #f8fafc;    /* Blanco/Gris muy claro para títulos */
-  --color-text-muted: #94a3b8;   /* Gris apagado para años, fechas o sinopsis */
+  --color-text-main: #f8fafc;    /* Blanco/Gris muy claro */
+  --color-text-muted: #94a3b8;   /* Gris apagado para años */
 
    /* Botón Principal (Primary) */
   --color-btn-primary: #3b82f6;        /* Azul base */
