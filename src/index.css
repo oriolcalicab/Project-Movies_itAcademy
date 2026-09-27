@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@theme{
+      /* Fondos principales */
+  --color-app-bg: #0f172a;       /* El fondo oscuro de toda la web */
+  --color-card-bg: #1e293b;      /* El fondo grisáceo para las MovieCard */
+  
+  /* Textos */
+  --color-text-main: #f8fafc;    /* Blanco/Gris muy claro para títulos */
+  --color-text-muted: #94a3b8;   /* Gris apagado para años, fechas o sinopsis */
+
+   /* Botón Principal (Primary) */
+  --color-btn-primary: #3b82f6;        /* Azul base */
+  --color-btn-primary-hover: #1d4ed8;  /* Azul más oscuro para el hover */
+  
+  /* Detalles o Acentos */
+  --color-rating-star: #eab308;  /* El color amarillo exacto para la estrella ⭐ */
+}
+
+body{
+    margin: 0;
+    min-width: 320px;
+    background-color: var(--color-app-bg);
+    color: var(--color-card-bg);
+    font-family:Arial, Helvetica, sans-serif;
+}
