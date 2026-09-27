@@ -1,36 +1,84 @@
 import { useEffect, useState } from "react";
-import type { Movie } from "../../../shared/types/movie";
+import type { Genre, Movie } from "../../../shared/types/movie";
 import { MovieCard } from "../components/MovieCard";
+import {
+  getGenres,
+  getMoviesByGenre,
+  getPopularMovies,
+  searchMovies,
+} from "../service/exploreService";
+import { SearchBar } from "../components/SearchBar";
+import { GenreFilter } from "../components/GenreFilter";
 
 export function HomePage() {
-  const [movies, setMovies] = useState<Movie[]>([]);  
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-        const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-ES`;
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        setMovies(data.results);
-      } catch {
-        return "No se han podido cargar las peliculas";
-      }
-    }
-    fetchMovies();
+    getGenres()
+      .then((data) => setGenres(data.genres))
+      .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    const request = searchQuery
+      ? searchMovies(searchQuery)
+      : selectedGenre
+        ? getMoviesByGenre(selectedGenre)
+        : getPopularMovies();
+
+        request
+        .then((data)=> setMovies(data.results))
+        .catch(() => setError("No se han podido cargar las peliculas"))
+        .finally(() => setIsLoading(false))
+  }, [searchQuery, selectedGenre]);
 
   return (
     <div className="p-4 md:p-6">
-      <h1 className="mb-6 text-2xl font-bold text-text-muted">Descubrir nuevas películas</h1>
+      <h1 className="mb-6 text-2xl font-bold text-text-muted">
+        Descubrir nuevas películas
+      </h1>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-5">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+      <div>
+        <SearchBar 
+        value={searchQuery}
+        onChange={(value: string) =>{
+            setIsLoading(true)
+            setError(null)
+            setSearchQuery(value)
+        }}
+        />
+        <GenreFilter
+        genres={genres}
+        selectedGenre={selectedGenre}
+        onChange={(value: string) =>{
+            setIsLoading(true)
+            setError(null)
+            setSelectedGenre(value)            
+        }} 
+        />
       </div>
+
+      {isLoading && <p>Cargando...</p>}
+      {error &&( <p role="alert">{error}</p>)}
+
+      {!isLoading && !error && movies.length === 0 &&(
+        <p>No se encuentrant resultados</p>
+      )}
+
+     
+      {!isLoading && !error && movies.length > 0 && (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+          {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
+      )}
+     
     </div>
   );
 }

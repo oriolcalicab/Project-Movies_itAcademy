@@ -2,7 +2,7 @@ import type { Movie } from "../../../shared/types/movie";
 
 export interface MovieList{
     page: number,
-    result: Movie[],
+    results: Movie[],
     total_page: number,
     total_result: number
 }
