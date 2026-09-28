@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "../layouts/Layout";
 import { HomePage } from "../feature/homeMovie/pages/HomePage"
+import { MovieDetailPage } from "../feature/movie-detail/pages/MovieDetailPage";
 
 export function AppRouter(){
     return(
@@ -8,6 +9,7 @@ export function AppRouter(){
         <Routes>
             <Route element={<Layout/>} >
             <Route path="/" element={<HomePage/>} />
+            <Route path="/movie/:id" element={<MovieDetailPage/>} />
             </Route>
         </Routes>
         </BrowserRouter>
