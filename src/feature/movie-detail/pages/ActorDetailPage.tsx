@@ -1,6 +1,7 @@
 import { useEffect, useState} from "react";
 import { useParams, Link } from "react-router-dom";
 import type { PersonalCredits, PersonalDetail } from "../types/personal";
+import noPosterImg from "../../../assets/no-poster.jpg"
 
 export function ActorDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -51,18 +52,18 @@ export function ActorDetailPage() {
 
   const photoUrl = person.profile_path
     ? `https://image.tmdb.org/t/p/w342${person.profile_path}`
-    : "https://via.placeholder.com/342x513?text=?";
+    :noPosterImg;
 
   return (
     <div className="p-4 text-text-main md:p-6">
       <div className="flex flex-col gap-4 sm:flex-row">
         <img src={photoUrl} alt={person.name} className="h-64 w-48 rounded-lg object-cover"/>
         <div>
-          <h1>{person.name}</h1>
+          <h1 className="text-2xl font-bold">{person.name}</h1>
           {person.place_of_birth && (
             <p className="mt-1 text-text-muted">{person.place_of_birth}</p>
           )}
-          <p>{person.biography || "No hay biografia disponible"}</p>
+          <p className="mt-3 text-text-main">{person.biography || "No hay biografia disponible"}</p>
         </div>
       </div>
       <h2 className="mt-6 text-xl font-semibold">Peliculas</h2>
@@ -73,7 +74,7 @@ export function ActorDetailPage() {
               src={
                 movie.poster_path
                   ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-                  : "https://via.placeholder.com/342x513?text=No+Poster"
+                  : noPosterImg
               }
               alt={movie.title}
               className="h-48 w-full rounded object-cover"

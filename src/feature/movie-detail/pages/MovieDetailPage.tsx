@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import type { Credits, MovieDetail } from "../types/movieDetail";
+import noPosterImage from "../../../assets/no-poster.jpg"
 
 export function MovieDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +58,7 @@ export function MovieDetailPage() {
     : null;
   const directorPhotoUrl = director?.profile_path
     ? `https://image.tmdb.org/t/p/w185${director.profile_path}`
-    : "https://via.placeholder.com/185x278?text=?";
+    : noPosterImage;
 
   return (
     <div className="text-text-main">
@@ -79,19 +80,23 @@ export function MovieDetailPage() {
 
         {director && (
           <div className="mt-4 flex items-center gap-3">
+            <Link
+                to={`/director/${director.id}`}
+                key={director.id}>
             <img
               src={directorPhotoUrl}
               alt={director.name}
               className="h-32 w-24 rounded object-cover"
             />
+            </Link>
             <div>
-                <p className="text-text-main">Director</p>
-                <Link
+              <p className="text-text-main">Director</p>
+              <Link
                 to={`/director/${director.id}`}
                 className="font-semibold text-brand-primary hover:underline"
               >
                 {director.name}
-                </Link>
+              </Link>
             </div>
           </div>
         )}
@@ -107,7 +112,7 @@ export function MovieDetailPage() {
                 src={
                   actor.profile_path
                     ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
-                    : "https://via.placeholder.com/185x278?text=?"
+                    : noPosterImage
                 }
                 alt={actor.name}
                 className="h-32 w-24 rounded object-cover"
