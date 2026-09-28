@@ -5,17 +5,19 @@ import { MovieDetailPage } from "../feature/movie-detail/pages/MovieDetailPage";
 import { ActorDetailPage } from "../feature/movie-detail/pages/ActorDetailPage";
 import { DirectorDetailPage } from "../feature/movie-detail/pages/DirectorDetailPage";
 import { RegisterPage } from "../feature/auth/pages/RegisterPage";
+import { LoginPage } from "../feature/auth/pages/LoginPage";
 
 export function AppRouter(){
     return(
         <BrowserRouter>
         <Routes>
             <Route element={<Layout/>} >
-            <Route path="/"             element={<HomePage/>} />
-            <Route path="/movie/:id"    element={<MovieDetailPage/>} />
-            <Route path="/actor/:id"    element={<ActorDetailPage/>} />
+            <Route path="/"             element={<HomePage/>}           />
+            <Route path="/movie/:id"    element={<MovieDetailPage/>}    />
+            <Route path="/actor/:id"    element={<ActorDetailPage/>}    />
             <Route path="/director/:id" element={<DirectorDetailPage/>} />
-            <Route path="/register"       element={<RegisterPage/>} />
+            <Route path="/register"     element={<RegisterPage/>}       />
+            <Route path="/login"        element={<LoginPage/>}          />   
             </Route>
         </Routes>
         </BrowserRouter>
