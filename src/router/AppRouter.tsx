@@ -4,6 +4,7 @@ import { HomePage } from "../feature/homeMovie/pages/HomePage"
 import { MovieDetailPage } from "../feature/movie-detail/pages/MovieDetailPage";
 import { ActorDetailPage } from "../feature/movie-detail/pages/ActorDetailPage";
 import { DirectorDetailPage } from "../feature/movie-detail/pages/DirectorDetailPage";
+import { RegisterPage } from "../feature/auth/pages/RegisterPage";
 
 export function AppRouter(){
     return(
@@ -14,6 +15,7 @@ export function AppRouter(){
             <Route path="/movie/:id"    element={<MovieDetailPage/>} />
             <Route path="/actor/:id"    element={<ActorDetailPage/>} />
             <Route path="/director/:id" element={<DirectorDetailPage/>} />
+            <Route path="/register"       element={<RegisterPage/>} />
             </Route>
         </Routes>
         </BrowserRouter>
