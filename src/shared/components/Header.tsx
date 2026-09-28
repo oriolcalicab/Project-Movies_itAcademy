@@ -1,8 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../shared/service/firebase";
+import { useAuth } from "../../feature/auth/context/AuthContext";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    signOut(auth);
+    navigate("/");
+  }
 
   return (
     <header className="px-4 py-3">
@@ -11,7 +21,7 @@ export function Header() {
           to="/"
           className="text-5xl font-bold text-text-muted hover:text-btn-primary-hover "
         >
-          Movies 
+          Movies
         </Link>
 
         {/* MENÚ ESCRITORIO */}
@@ -19,18 +29,29 @@ export function Header() {
           className="hidden items-center gap-10 ml-auto sm:flex "
           aria-label="Menu de usuario"
         >
-          <Link
-            to="/register"
-            className="text-sm text-text-main px-4 py-2 rounded-2xl bg-btn-primary hover:bg-btn-primary-hover transition-colors"
-          >
-            Registrarse
-          </Link>
-          <Link
-            to="/login"
-            className="text-sm text-text-main px-4 py-2 rounded bg-btn-primary hover:bg-btn-primary-hover transition-colors"
-          >
-            Iniciar sesión
-          </Link>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="text-2xl text-text-main hover:text-text-muted cursor-pointer "
+            >
+              Cerrar sessión
+            </button>
+          ) : (
+            <>
+              <Link
+                to="/register"
+                className="text-sm text-text-main px-4 py-2 rounded-2xl bg-btn-primary hover:bg-btn-primary-hover transition-colors"
+              >
+                Registrarse
+              </Link>
+              <Link
+                to="/login"
+                className="text-sm text-text-main px-4 py-2 rounded bg-btn-primary hover:bg-btn-primary-hover transition-colors"
+              >
+                Iniciar sesión
+              </Link>
+            </>
+          )}
         </nav>
 
         {/* MENU MOBIL */}
@@ -45,24 +66,38 @@ export function Header() {
 
           {isMenuOpen && (
             <nav
-              className="absolute top-full right-0 z-50 mt-1 flex flex-col gap-2  p-2  w-30 "
+              className="absolute top-full right-0 z-50 mt-1 flex flex-col gap-2  p-2  w-30 bg-app-bg "
               aria-label="Menu de usuario móvil"
             >
-              <Link
-                to="/register"
-                className="text-sm text-text-main hover:bg-card-bg p-2 rounded-lg transition-colors text-right hover:text-btn-primary"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Registrarse
-              </Link>
+              {user ? (
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className=" text-sm text-text-main hover:bg-card-bg rounded-lg transition-colors hover:text-btn-primary cursor-pointer  "
+                >
+                  Cerrar sessión
+                </button>
+              ) : (
+                <>
+                  <Link
+                    to="/register"
+                    className="text-sm text-text-main  hover:bg-card-bg p-2 rounded-lg transition-colors text-right hover:text-btn-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Registrarse
+                  </Link>
 
-              <Link
-                to="/login"
-                className="text-sm text-text-main hover:bg-card-bg p-2 rounded-lg transition-colors text-right hover:text-btn-primary"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Iniciar sesión
-              </Link>
+                  <Link
+                    to="/login"
+                    className="text-sm text-text-main  hover:bg-card-bg p-2 rounded-lg transition-colors text-right hover:text-btn-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Iniciar sesión
+                  </Link>
+                </>
+              )}
             </nav>
           )}
         </div>
