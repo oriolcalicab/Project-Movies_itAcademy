@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "../layouts/Layout";
-import { HomePage } from "../feature/homeMovie/pages/HomePage"
-import { MovieDetailPage } from "../feature/movie-detail/pages/MovieDetailPage";
-import { ActorDetailPage } from "../feature/movie-detail/pages/ActorDetailPage";
-import { DirectorDetailPage } from "../feature/movie-detail/pages/DirectorDetailPage";
-import { RegisterPage } from "../feature/auth/pages/RegisterPage";
-import { LoginPage } from "../feature/auth/pages/LoginPage";
+import { HomePage } from "../features/homeMovie/pages/HomePage"
+import { MovieDetailPage } from "../features/movie-detail/pages/MovieDetailPage";
+import { ActorDetailPage } from "../features/movie-detail/pages/ActorDetailPage";
+import { DirectorDetailPage } from "../features/movie-detail/pages/DirectorDetailPage";
+import { RegisterPage } from "../features/auth/pages/RegisterPage";
+import { LoginPage } from "../features/auth/pages/LoginPage";
 
 export function AppRouter(){
     return(

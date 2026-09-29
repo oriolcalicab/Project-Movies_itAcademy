@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../shared/service/firebase";
-import { useAuth } from "../../feature/auth/context/AuthContext";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
