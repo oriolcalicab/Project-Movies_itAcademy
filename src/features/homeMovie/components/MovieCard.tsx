@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 import type { Movie } from "../../../shared/types/movie";
+import { getImageUrlOrPlaceholder } from "../../../shared/utils/tmdbImage";
 
 interface Props {
   movie: Movie;
 }
 
-const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342";
+
 
 export function MovieCard({ movie }: Props) {
-  const postUrl = movie.poster_path
-    ? `${POSTER_BASE_URL}${movie.poster_path}`
-    : "https://via.placeholder.com/342x513?text=No+Poster";
+  const postUrl = getImageUrlOrPlaceholder(movie.poster_path, "w342") 
+  
 
   const year = movie.release_date ? movie.release_date.slice(0, 4) : "/";
 
   return (
-    <Link to={`/movie/${movie.id}`} className="blok rounded-lg bg-card-bg overflow-hidden transition-transform hover:scale-100 hover:border-2 border-btn-primary">
+    <Link to={`/movie/${movie.id}`} className="block rounded-lg bg-card-bg overflow-hidden transition-transform hover:scale-100 hover:border-2 border-btn-primary">
       <img
         src={postUrl}
         alt={movie.title}
