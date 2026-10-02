@@ -6,13 +6,12 @@ export interface PersonWithCredits{
     person: PersonalDetail;
     credits: PersonalCredits;
 }
-
 export function getPersonDetail(id: string) {
-    return tmdbFetch<PersonalDetail>(`/personal/${id}`)
+  return tmdbFetch<PersonalDetail>(`/person/${id}`);
 }
 
-export function getPersonCredits(id: string ){
-    return tmdbFetch<PersonalCredits>(`/personal/${id}/movie_credits`)
+export function getPersonCredits(id: string) {
+  return tmdbFetch<PersonalCredits>(`/person/${id}/movie_credits`);
 }
 
 
