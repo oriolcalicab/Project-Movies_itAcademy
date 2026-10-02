@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import type { Genre } from "../../../shared/types/movie";
+import { useCallback,  useState } from "react";
 import { MovieCard } from "../components/MovieCard";
 import {
   getGenres,
@@ -14,16 +13,13 @@ import type { MovieList } from "../types/MovieList";
 
 
 export function HomePage() {
-  const [genres, setGenres] = useState<Genre[]>([]);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const debouncedQuery = useDebounce(searchQuery, 400);
 
-  useEffect(() => {
-    getGenres()
-      .then((data) => setGenres(data.genres))
-      .catch(() => {});
-  }, []);
+  const {data: genresData, error: genresError} = useFetch(getGenres)
+  const genres = genresData?.genres ?? [];
 
   const fetchMovies = useCallback(() => {
     if (debouncedQuery) return searchMovies(debouncedQuery);
@@ -49,6 +45,12 @@ export function HomePage() {
           onChange={setSelectedGenre}
         />
       </div>
+
+      {genresError && (
+        <p role="alert" className="mt-6 mb-6 text-sm text-red-500">
+           No se han podido cargar los géneros {genresError}
+        </p>
+      )}
 
       {loading && <p className="text-text-muted">Cargando...</p>}
       {error && (
