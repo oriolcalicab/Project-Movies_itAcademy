@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import type { Genre, Movie } from "../../../shared/types/movie";
+import { useCallback, useEffect, useState } from "react";
+import type { Genre } from "../../../shared/types/movie";
 import { MovieCard } from "../components/MovieCard";
 import {
   getGenres,
@@ -9,14 +9,15 @@ import {
 } from "../service/exploreService";
 import { SearchBar } from "../components/SearchBar";
 import { GenreFilter } from "../components/GenreFilter";
+import { useDebounce, useFetch } from "../../../shared/hooks";
+import type { MovieList } from "../types/MovieList";
+
 
 export function HomePage() {
-  const [movies, setMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const debouncedQuery = useDebounce(searchQuery, 400);
 
   useEffect(() => {
     getGenres()
@@ -24,18 +25,15 @@ export function HomePage() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    const request = searchQuery
-      ? searchMovies(searchQuery)
-      : selectedGenre
-        ? getMoviesByGenre(selectedGenre)
-        : getPopularMovies();
+  const fetchMovies = useCallback(() => {
+    if (debouncedQuery) return searchMovies(debouncedQuery);
+    if (selectedGenre) return getMoviesByGenre(selectedGenre);
+    return getPopularMovies();
+  }, [debouncedQuery, selectedGenre]);
 
-        request
-        .then((data)=> setMovies(data.results))
-        .catch(() => setError("No se han podido cargar las peliculas"))
-        .finally(() => setIsLoading(false))
-  }, [searchQuery, selectedGenre]);
+  const { data, loading, error } = useFetch<MovieList>(fetchMovies);
+
+  const movies = data?.results ?? [];
 
   return (
     <div className="p-4 md:p-6">
@@ -44,41 +42,32 @@ export function HomePage() {
       </h1>
 
       <div className="mb-10 flex flex-col gap-3 sm:flex-row">
-        <SearchBar 
-        value={searchQuery}
-        onChange={(value: string) =>{
-            setIsLoading(true)
-            setError(null)
-            setSearchQuery(value)
-        }}
-        />
+        <SearchBar value={searchQuery} onChange={setSearchQuery} />
         <GenreFilter
-        genres={genres}
-        selectedGenre={selectedGenre}
-        onChange={(value: string) =>{
-            setIsLoading(true)
-            setError(null)
-            setSelectedGenre(value)            
-        }} 
+          genres={genres}
+          selectedGenre={selectedGenre}
+          onChange={setSelectedGenre}
         />
       </div>
 
-      {isLoading && <p className="text-text-muted">Cargando...</p>}
-      {error &&( <p role="alert" className="text-red-500">{error}</p>)}
+      {loading && <p className="text-text-muted">Cargando...</p>}
+      {error && (
+        <p role="alert" className="text-red-500">
+          {error}
+        </p>
+      )}
 
-      {!isLoading && !error && movies.length === 0 &&(
+      {!loading && !error && movies.length === 0 && (
         <p className="text-text-muted">No se encuentrant resultados</p>
       )}
 
-     
-      {!isLoading && !error && movies.length > 0 && (
+      {!loading && !error && movies.length > 0 && (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
       )}
-     
     </div>
   );
 }
