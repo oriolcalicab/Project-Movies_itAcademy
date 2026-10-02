@@ -7,16 +7,16 @@ export interface PersonWithCredits{
     credits: PersonalCredits;
 }
 
-export function getPersonalDetail(id: string) {
+export function getPersonDetail(id: string) {
     return tmdbFetch<PersonalDetail>(`/personal/${id}`)
 }
 
-export function getPersonalCredits(id: string ){
+export function getPersonCredits(id: string ){
     return tmdbFetch<PersonalCredits>(`/personal/${id}/movie_credits`)
 }
 
 
-export async function getPersonalWithCredits(id:string): Promise<PersonWithCredits> {
-    const [person, credits] = await Promise.all([getPersonalDetail(id), getPersonalCredits(id)])
+export async function getPersonWithCredits(id:string): Promise<PersonWithCredits> {
+    const [person, credits] = await Promise.all([getPersonDetail(id), getPersonCredits(id)])
     return {person, credits }
 }
