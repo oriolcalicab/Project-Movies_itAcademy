@@ -2,15 +2,17 @@ import { useCallback} from "react";
 import { Link, useParams } from "react-router-dom";
 import noPosterImage from "../../../assets/no-poster.jpg"
 import { useFetch } from "../../../shared/hooks";
-import { getMovieWitchCredits, type MovieWitchCredits } from "../service/movieDetailService";
+import { getMovieWithCredits, type MovieWithCredits } from "../service/movieDetailService";
+console.log("és un mock?", vi.isMockFunction(getMovieWithCredits));
 import { getImageUrl, getImageUrlOrPlaceholder } from "../../../shared/utils/tmdbImage";
+import { vi } from "vitest";
 
 export function MovieDetailPage() {
   const {id = "" } = useParams<{id: string}>() 
-  const fetchMovie = useCallback(() => getMovieWitchCredits(id), [id])
-  const {loading, error, data} = useFetch<MovieWitchCredits>(fetchMovie)
+  const fetchMovie = useCallback(() => getMovieWithCredits(id), [id])
+  const {loading, error, data} = useFetch<MovieWithCredits>(fetchMovie)
 
-  if (loading) return <p>Carregant...</p>;
+  if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error}</p>;
   if (!data) return <p>Pelicula no encontrada</p>;
 
