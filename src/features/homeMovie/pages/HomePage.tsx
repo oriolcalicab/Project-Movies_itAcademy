@@ -60,7 +60,7 @@ export function HomePage() {
       )}
 
       {!loading && !error && movies.length === 0 && (
-        <p className="text-text-muted">No se encuentrant resultados</p>
+        <p className="text-text-muted">No se han encontrado resultados</p>
       )}
 
       {!loading && !error && movies.length > 0 && (
