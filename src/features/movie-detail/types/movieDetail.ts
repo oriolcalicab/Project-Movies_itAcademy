@@ -12,7 +12,7 @@ export interface CastMember{
     profile_path:string | null;
 }
 
-export interface CrewMenber{
+export interface CrewMember{
     id: number;
     name: string;
     job:string;
@@ -20,5 +20,5 @@ export interface CrewMenber{
 }
 export interface Credits{
     cast: CastMember[]
-    crew: CrewMenber[]
+    crew: CrewMember[]
 }
