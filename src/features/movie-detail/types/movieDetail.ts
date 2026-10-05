@@ -2,7 +2,7 @@ import type { Movie } from "../../../shared/types/movie";
 
 export interface MovieDetail extends Movie{
     runtime: number;
-    genre: {id: string, name: string} [];
+    genres: {id: number, name: string} [];
     backdrop_path: string | null
 }
 export interface CastMember{
